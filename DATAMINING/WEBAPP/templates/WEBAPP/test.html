@@ -1,11 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Final Project</title>
-</head>
-<body>
-<h1>Setup & Configure Django</h1>
-{{ map1 | safe }}
-</body>
-</html>
+{% extends 'partials/base.html' %}
+{% block content %}
+
+<style>
+    .map1-placeholder{
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 20%;
+        margin-left: 35px;
+    }
+    .map2-placeholder{
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 20%;
+        margin-left: 50%;
+    }
+</style>
+<div class="map1-placeholder">
+    {{map1 | safe}}
+</div>
+<div class="map2-placeholder">
+    {{map2 | safe}}
+</div>
+
+
+{% endblock %}
