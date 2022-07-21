@@ -157,7 +157,7 @@ def spatial_analysis_heat(data):
         heat_list.append([float(temp[1]), float(temp[0]), 1])
     # heat_list = [[11.33877, 124.552177, 0.8]]
 
-    map1 = folium.Map([12, 122], zoom_start=6)
+    map1 = folium.Map([12, 122], zoom_start=6, max_zoom=8)
     gradient = {'0.0': 'Navy', '0.25': 'Blue', '0.5': 'Green', '0.75': 'Yellow', '1': 'Red'}
     # HeatMap(data=heat_list, gradient=gradient, radius=25, blur = 10, min_opacity = 0.25, max_val = 0.0005).add_to(mapObj)
     plugins.HeatMap(heat_list, radius=25, max_zoom=13).add_to(map1)
@@ -185,7 +185,7 @@ def spatial_analysis_chloro(data):
         hover_data=["type"],
         mapbox_style="carto-positron",
         center={"lat": 12, "lon": 122},
-        zoom=3,
+        zoom=5,
         height= 444,
     )
     return fig.to_html()
