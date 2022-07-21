@@ -3,18 +3,20 @@
 
 <style>
     html,body{
-        background-color: pink;
+        background-color: #b2bec3;
     }
 </style>
 
 <div class="container mt-5 pt-5 mb-5 pb-5">
     <div class="row">
-        <div class="container mb-2 pb-2">
-            <h3 class="text-left">Map 1</h3>
+        <div class="col-6 mb-2 pb-2">
+            <h4 class="text-center">Crime Mapping for all Crimes</h4>
+            <p class="text-center">Insert Description here.</p>
             {{map1 | safe}}
         </div>
-         <div class="container">
-            <h3 class="text-left">Map 2</h3>
+         <div class="col-6">
+            <h4 class="text-center">Most Probable Crime per Region</h4>
+             <p class="text-center">Insert Description here.</p>
             {{map2 | safe}}
         </div>
     </div>
