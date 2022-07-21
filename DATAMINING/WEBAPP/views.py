@@ -186,5 +186,6 @@ def spatial_analysis_chloro(data):
         mapbox_style="carto-positron",
         center={"lat": 12, "lon": 122},
         zoom=3,
+        height= 444,
     )
     return fig.to_html()
