@@ -2,27 +2,21 @@
 {% block content %}
 
 <style>
-    .map1-placeholder{
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        top: 20%;
-        margin-left: 35px;
-    }
-    .map2-placeholder{
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        top: 20%;
-        margin-left: 50%;
+    html,body{
+        background-color: pink;
     }
 </style>
-<div class="map1-placeholder">
-    {{map1 | safe}}
-</div>
-<div class="map2-placeholder">
-    {{map2 | safe}}
-</div>
 
-
+<div class="container mt-5 pt-5 mb-5 pb-5">
+    <div class="row">
+        <div class="container mb-2 pb-2">
+            <h3 class="text-left">Map 1</h3>
+            {{map1 | safe}}
+        </div>
+         <div class="container">
+            <h3 class="text-left">Map 2</h3>
+            {{map2 | safe}}
+        </div>
+    </div>
+</div>
 {% endblock %}
