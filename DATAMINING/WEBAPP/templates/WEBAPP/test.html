@@ -3,22 +3,38 @@
 
 <style>
     html,body{
-        background-color: #b2bec3;
+        background-color: white;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map1{
+        float: left;
+        width: 800px;
+        margin-left: 5%;
+        margin-top: 5%;
+        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    }
+    #map2{
+        float: right;
+        width: 800px;
+        margin-right: 5%;
+        margin-top: 5%;
+        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     }
 </style>
-
-<div class="container mt-5 pt-5 mb-5 pb-5">
-    <div class="row">
-        <div class="col-6 mb-2 pb-2">
+<body>
+        <div class="container" id="map1">
             <h4 class="text-center">Crime Mapping for all Crimes</h4>
             <p class="text-center">Insert Description here.</p>
             {{map1 | safe}}
         </div>
-         <div class="col-6">
+         <div class="container" id="map2">
             <h4 class="text-center">Most Probable Crime per Region</h4>
              <p class="text-center">Insert Description here.</p>
             {{map2 | safe}}
         </div>
     </div>
 </div>
+</body>
 {% endblock %}
