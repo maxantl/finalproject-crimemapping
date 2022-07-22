@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Final Project</title>
+    <title>{% block title %}Crime Mapping{% endblock %}</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -20,30 +20,32 @@
 
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #18191A;">
       <div class="container-fluid">
-        <a class="navbar-brand" style="font-family:'Roboto', sans-serif;">CRIME MAPPING</a>
+        <a class="navbar-brand" href="{% url 'Final Project' %}" style="font-family:'Roboto', sans-serif;">CRIME MAPPING</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
         </button>
+        <ul>
           <li class="nav-item dropdown">
-             <form class="nav-item dropdown" action="/change_type" method="GET">
+             <form class="form-inline my-2 my-md-0" action="/change_type" method="GET">
                  {% csrf_token %}
-                 <select name="dropdown_menu_form" id="dropdown">
-                     <option value="all">all</option>
-                     <option value="murder">murder</option>
-                     <option value="physical injury">physical injury</option>
-                     <option value="kidnapping">kidnapping</option>
-                     <option value="rape">rape</option>
-                     <option value="robbery">robbery</option>
-                     <option value="carnapping">carnapping</option>
-                     <option value="drug">drug</option>
-                     <option value="terrorism">terrorism</option>
-                     <option value="obstruction">obstruction</option>
-                     <option value="smuggling">smuggling</option>
-                     <option value="fraud">fraud</option>
-                     <option value="illegal possession">illegal possession</option>
-                     <option value="wanted">wanted</option>
-                     <option value="wrongful restraining">wrongful restraining</option>
-                 <input type="submit" value="Filter"/>
+                 <select name="dropdown_menu_form" class="mt-2 mr-2" id="dropdown">
+                     <option value="all" selected>All</option>
+                     <option value="murder">Murder</option>
+                     <option value="physical injury">Physical injury</option>
+                     <option value="kidnapping">Kidnapping</option>
+                     <option value="rape">Rape</option>
+                     <option value="robbery">Robbery</option>
+                     <option value="carnapping">Carnapping</option>
+                     <option value="drug">Drug</option>
+                     <option value="terrorism">Terrorism</option>
+                     <option value="obstruction">Obstruction</option>
+                     <option value="smuggling">Smuggling</option>
+                     <option value="fraud">Fraud</option>
+                     <option value="illegal possession">Illegal Possession</option>
+                     <option value="wanted">Wanted</option>
+                     <option value="wrongful restraining">Wrongful Restraining</option>
+                 <input type="submit" class="btn btn-outline-primary btn-sm mt-2" value="Filter"/>
+                 </select>
              </form>
           </ul>
       </div>

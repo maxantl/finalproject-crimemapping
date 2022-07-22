@@ -10,28 +10,25 @@
         height: 100%;
         width: 100%;
     }
-
-    text-center {
-        text-align: center!important;
-    }
     #map1{
         float: left;
+        height: 550.8px;
         width: 800px;
         margin-left: 6%;
         margin-top: 8%;
         padding-top: 15px;
-        box-shadow: 0px 0px 20px -5px;
+        box-shadow: 0 10px 10px -5px;
         border-radius: 10px;
         font-family: 'Bebas Neue', cursive;
     }
     #map2{
         float: right;
-        height: 550.8px;
+        height: 553.8px;
         width: 800px;
         margin-right: 6%;
         margin-top: 8%;
         padding-top: 15px;
-        box-shadow: 0px 0px 20px -5px;
+        box-shadow: 0 10px 10px -5px;
         border-radius: 10px;
         font-family: 'Bebas Neue', cursive;
     }
@@ -41,31 +38,17 @@
     #map2-desc{
         font-family: 'Roboto', sans-serif;
     }
-    .alert{
-        position: absolute;
-        height: 150px;
-        width: 500px;
-        margin: auto;
-        top: 35%;
-        left: 35%;
-        background-color: #18191A;;
-        text-align: justify;
-        text-justify: inter-word;
-        padding: 20px;
-        color: white;
-        font-family: 'Roboto', sans-serif;
-    }
 </style>
 
 <body>
          <div class="container" id="map1">
-            <h4 class="text-center">Crime Mapping for all Crimes</h4>
-            <p class="text-center" id="map1-desc">Insert Desc here.</p>
+            <h4 class="text-left">Crime Mapping for all Crimes</h4>
+            <p class="text-left" id="map1-desc">This heatmap shows all crimes in the Philippines.</p>
             {{map1 | safe}}
          </div>
          <div class="container" id="map2">
-            <h4 class="text-center">Most Probable Crime per Region</h4>
-             <p class="text-center" id="map2-desc">Insert Desc here.</p>
+            <h4 class="text-left">Most Probable Crime per Region</h4>
+             <p class="text-left" id="map2-desc">This chloropleth map shows the most probable crime of every region in the Philippines.</p>
             {{map2 | safe}}
         </div>
 </body>
