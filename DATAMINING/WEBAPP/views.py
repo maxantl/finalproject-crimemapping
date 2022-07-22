@@ -32,7 +32,7 @@ def req(request):
 
 def data_preparation():
     #url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/type_data.csv"
-    url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/data6k.csv"
+    url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/data16K.csv"
     download = requests.get(url).content
     df = pd.read_csv(io.StringIO(download.decode('utf-8')))
 
@@ -164,7 +164,7 @@ def change_type(request):
         specific_df = specific_df[specific_df['type'] == type].reset_index()[['coords', 'type', 'region']]
 
     pred_df = pd.DataFrame({'type': specific_df.type, 'region': specific_df.region, 'coords': specific_df.coords})
-
+    print(pred_df.shape[0])
     context = {
         'map1': spatial_analysis_heat(pred_df),
         'map2': spatial_analysis_chloro(pred_df),
