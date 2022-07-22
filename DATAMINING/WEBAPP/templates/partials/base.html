@@ -21,9 +21,9 @@
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #18191A;">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'Final Project' %}" style="font-family:'Roboto', sans-serif;">CRIME MAPPING</a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-        </button>
+          <div class="text-white">
+              {{ title | safe}}
+          </div>
         <ul>
           <li class="nav-item dropdown">
              <form class="form-inline my-2 my-md-0" action="/change_type" method="GET">

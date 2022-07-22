@@ -2,6 +2,7 @@ from django.shortcuts import render
 import folium
 from folium import plugins
 import plotly.express as px
+import seaborn as sns
 import pandas as pd
 import numpy as np
 from nltk.corpus import stopwords
@@ -22,13 +23,26 @@ def req(request):
     final = df[df['type'] != 'non'].reset_index()
     map1 = spatial_analysis_heat(final)
     map2 = spatial_analysis_chloro(final)
+    bar = create_bar(final)
     regression(data)
     context = {
         'map1': map1,
         'map2': map2,
+        'title': "All Crimes",
+        'bar': bar,
     }
     return render(request,'WEBAPP/notice.html',context)
 
+def create_bar(df):
+    temp = df[['type', 'region']]
+    temp = temp.groupby(temp.columns.tolist(), as_index=False).size()
+    fig = px.bar(temp, x="size", y="region", color="type", labels={
+                     "size": "Crime Count",
+                     "region": "Region Name",
+                     "type": "Type of Crime",
+                 },
+                 title="Per Region Count")
+    return fig.to_html()
 
 def data_preparation():
     #url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/type_data.csv"
@@ -158,16 +172,18 @@ def data_preparation():
 def change_type(request):
     data = data_preparation()
     df = pd.DataFrame({'coords': data.coords, 'type': regression(data), 'region': data.region_name})
-    type = request.GET.get('dropdown_menu_form').lower()
+    title =  request.GET.get('dropdown_menu_form')
+    type = title.lower()
     specific_df = df[df['type'] != 'non'].reset_index()[['coords', 'type', 'region']]
     if type != "all":
         specific_df = specific_df[specific_df['type'] == type].reset_index()[['coords', 'type', 'region']]
 
     pred_df = pd.DataFrame({'type': specific_df.type, 'region': specific_df.region, 'coords': specific_df.coords})
-    print(pred_df.shape[0])
     context = {
         'map1': spatial_analysis_heat(pred_df),
         'map2': spatial_analysis_chloro(pred_df),
+        'title': title,
+        'bar': create_bar(pred_df),
     }
     return render(request, 'WEBAPP/index.html', context)
 
@@ -209,7 +225,7 @@ def spatial_analysis_chloro(pred_df):
         others_list.append(word)
 
     chloro_df = pd.DataFrame({'Region Name': region_list, 'Most Likely Crime': type_list,
-                              'Probability Percent of Most Likely Crime': percent_list, 'All Crimes': others_list})
+                              'Likely %': percent_list, 'All Crimes': others_list})
 
     url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/Regions.json"
     f = requests.get(url)
@@ -219,7 +235,7 @@ def spatial_analysis_chloro(pred_df):
         chloro_df,
         locations="Region Name",
         geojson=regions,
-        color="Probability Percent of Most Likely Crime",
+        color="Likely %",
         featureidkey="properties.REGION",
         hover_name="Region Name",
         hover_data=["All Crimes", "Most Likely Crime"],
