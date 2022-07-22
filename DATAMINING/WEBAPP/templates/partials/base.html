@@ -24,29 +24,27 @@
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
         </button>
-          <ul class="nav navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" id="navDropdown" data-bs-toggle="dropdown" style="font-family: 'Roboto', sans-serif;">CRIME TYPES</a>
-              <div class="dropdown-menu dropdown-menu-right" id="navMenu">
-                  <a href="#" class="dropdown-item active" style="font-family: 'Roboto', sans-serif;">All</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Arrests</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Murder</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Physical Injury</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Kidnapping</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Rape</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Robbery</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Carnap</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Drugs</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Terrorism</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Obstruction</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Smuggling</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Fraud</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Illegal Possession</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Wanted</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Wrongful</a>
-                <a href="#" class="dropdown-item" style="font-family: 'Roboto', sans-serif;">Restraining</a>
-              </div>
-            </li>
+          <li class="nav-item dropdown">
+             <form class="nav-item dropdown" action="/change_type" method="GET">
+                 {% csrf_token %}
+                 <select name="dropdown_menu_form" id="dropdown">
+                     <option value="all">all</option>
+                     <option value="murder">murder</option>
+                     <option value="physical injury">physical injury</option>
+                     <option value="kidnapping">kidnapping</option>
+                     <option value="rape">rape</option>
+                     <option value="robbery">robbery</option>
+                     <option value="carnapping">carnapping</option>
+                     <option value="drug">drug</option>
+                     <option value="terrorism">terrorism</option>
+                     <option value="obstruction">obstruction</option>
+                     <option value="smuggling">smuggling</option>
+                     <option value="fraud">fraud</option>
+                     <option value="illegal possession">illegal possession</option>
+                     <option value="wanted">wanted</option>
+                     <option value="wrongful restraining">wrongful restraining</option>
+                 <input type="submit" value="Filter"/>
+             </form>
           </ul>
       </div>
     </nav>

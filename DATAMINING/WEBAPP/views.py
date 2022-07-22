@@ -12,20 +12,27 @@ import requests
 import io
 import re
 import warnings
+import pickle
 warnings.filterwarnings('ignore')
 
-def test(request):
+
+def req(request):
     data = data_preparation()
-    map1 = spatial_analysis_heat(data)
-    map2 = spatial_analysis_chloro(data)
+    df = pd.DataFrame({'coords': data.coords, 'type': regression(data), 'region': data.region_name})
+    final = df[df['type'] != 'non'].reset_index()
+    map1 = spatial_analysis_heat(final)
+    map2 = spatial_analysis_chloro(final)
+    regression(data)
     context = {
         'map1': map1,
         'map2': map2,
     }
-    return render(request,'WEBAPP/test.html',context)
+    return render(request,'WEBAPP/notice.html',context)
+
 
 def data_preparation():
-    url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/type_data.csv"
+    #url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/type_data.csv"
+    url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/data6k.csv"
     download = requests.get(url).content
     df = pd.read_csv(io.StringIO(download.decode('utf-8')))
 
@@ -76,7 +83,7 @@ def data_preparation():
         index += 1
 
     df['coords'] = np.NaN
-    no_coords = df[['tweet', 'coords', 'type']]
+    no_coords = df[['tweet', 'coords']]
 
     def locate_tweet(text):
         found = False
@@ -147,9 +154,25 @@ def data_preparation():
 
     return no_coords
 
-def spatial_analysis_heat(data):
-    specific_df = data.loc[data['type'] != ""].reset_index()[['coords', 'type']]
 
+def change_type(request):
+    data = data_preparation()
+    df = pd.DataFrame({'coords': data.coords, 'type': regression(data), 'region': data.region_name})
+    type = request.GET.get('dropdown_menu_form').lower()
+    specific_df = df[df['type'] != 'non'].reset_index()[['coords', 'type', 'region']]
+    if type != "all":
+        specific_df = specific_df[specific_df['type'] == type].reset_index()[['coords', 'type', 'region']]
+
+    pred_df = pd.DataFrame({'type': specific_df.type, 'region': specific_df.region, 'coords': specific_df.coords})
+
+    context = {
+        'map1': spatial_analysis_heat(pred_df),
+        'map2': spatial_analysis_chloro(pred_df),
+    }
+    return render(request, 'WEBAPP/index.html', context)
+
+def spatial_analysis_heat(data):
+    specific_df = data[['coords', 'type']]
     heat_list = []
     for _loc in range(specific_df.shape[0]):
         # for _loc in range(10):
@@ -164,28 +187,54 @@ def spatial_analysis_heat(data):
     map1 = map1._repr_html_()
     return map1
 
-def spatial_analysis_chloro(data):
+
+def init_chloro(data):
+    pred_df = pd.DataFrame({'tweet': data.tweet, 'type': regression(data), 'region': data.region_name})
+    return spatial_analysis_chloro(pred_df)
+
+def spatial_analysis_chloro(pred_df):
+    regio = pred_df.region.unique()
+    region_list = []
+    type_list = []
+    percent_list = []
+    others_list = []
+    for reg in regio:
+        temp = pred_df[pred_df.region == reg].type.value_counts()
+        region_list.append(reg)
+        type_list.append(temp.index[0])
+        percent_list.append(temp[0] / temp.sum() * 100)
+        word = ""
+        for item in temp.index:
+            word += str(item) + ", "
+        others_list.append(word)
+
+    chloro_df = pd.DataFrame({'Region Name': region_list, 'Most Likely Crime': type_list,
+                              'Probability Percent of Most Likely Crime': percent_list, 'All Crimes': others_list})
+
     url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/Regions.json"
     f = requests.get(url)
     regions = f.json()
 
-    def random_test(text):
-        return np.random.randint(100)
-
-    data["dummy"] = data["type"].apply(random_test)
-    data
-
     fig = px.choropleth_mapbox(
-        data,
-        locations="region_name",
+        chloro_df,
+        locations="Region Name",
         geojson=regions,
-        color="dummy",
+        color="Probability Percent of Most Likely Crime",
         featureidkey="properties.REGION",
-        hover_name="region_name",
-        hover_data=["type"],
+        hover_name="Region Name",
+        hover_data=["All Crimes", "Most Likely Crime"],
         mapbox_style="carto-positron",
         center={"lat": 12, "lon": 122},
         zoom=5,
         height= 444,
     )
     return fig.to_html()
+
+def regression(data):
+    df = data[['tweet']]
+    # Download trained model
+    url = "https://raw.githubusercontent.com/lorensdima/datasetstest/main/pickle_model.pkl"
+    file = requests.get(url, stream=True)
+    text_clf_svm = pickle.loads(file.content)
+    final = text_clf_svm.predict(df.tweet)
+    return final
