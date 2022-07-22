@@ -244,6 +244,9 @@ def spatial_analysis_chloro(pred_df):
         zoom=5,
         height= 444,
     )
+    fig.update_layout(
+        margin=dict(l=0, r=0, b=0, t=0),
+    )
     return fig.to_html()
 
 def regression(data):
