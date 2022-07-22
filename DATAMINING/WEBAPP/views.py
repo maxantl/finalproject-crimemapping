@@ -172,7 +172,7 @@ def data_preparation():
 def change_type(request):
     data = data_preparation()
     df = pd.DataFrame({'coords': data.coords, 'type': regression(data), 'region': data.region_name})
-    title =  request.GET.get('dropdown_menu_form')
+    title = request.GET.get('dropdown_menu_form').upper()
     type = title.lower()
     specific_df = df[df['type'] != 'non'].reset_index()[['coords', 'type', 'region']]
     if type != "all":

@@ -16,7 +16,6 @@
         padding-top: 15px;
         box-shadow: 0 10px 10px -5px;
         margin-right: 2%;
-        box-shadow: 0px 0px 20px -5px;
         border-radius: 10px;
         font-family: 'Bebas Neue', cursive;
     }
@@ -26,7 +25,6 @@
         padding-top: 15px;
         box-shadow: 0 10px 10px -5px;
         margin-left: 2%;
-        box-shadow: 0px 0px 20px -5px;
         border-radius: 10px;
         font-family: 'Bebas Neue', cursive;
     }
@@ -54,9 +52,16 @@
         color: white;
         font-family: 'Roboto', sans-serif;
     }
+    #head-title{
+        margin-top: 2%;
+        margin-left: 42%;
+    }
 </style>
 
 <body>
+         <div class="text-black mt-2" style="font-family: 'Bebas Neue', cursive;" id="head-title">
+             <h5 style="font-size: 35px;">CRIME TYPE: <strong style="color: Red">{{ title | safe}}</strong></h5>
+          </div>
         <div class="container" >
             <div class="row maps">
                  <div class="col" id="map1">
